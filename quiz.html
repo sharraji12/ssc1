@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polity Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polity Quiz</h1>
+    <div id="quiz"></div>
+    <button id="submit">Submit Quiz</button>
+    <div id="results"></div>
+
+    <script>
+        const quizData = [
+            {
+                question: "What is the capital of India?",
+                options: ["Mumbai", "New Delhi", "Kolkata", "Chennai"],
+                correct: 1
+            },
+            {
+                question: "Who is known as the 'Father of the Indian Constitution'?",
+                options: ["Mahatma Gandhi", "Jawaharlal Nehru", "B.R. Ambedkar", "Sardar Patel"],
+                correct: 2
+            },
+            {
+                question: "How many fundamental rights are there in the Indian Constitution?",
+                options: ["5", "6", "7", "8"],
+                correct: 1
+            },
+            {
+                question: "Which article of the Indian Constitution abolishes untouchability?",
+                options: ["Article 15", "Article 17", "Article 21", "Article 25"],
+                correct: 1
+            },
+            {
+                question: "What is the term of office for the President of India?",
+                options: ["4 years", "5 years", "6 years", "7 years"],
+                correct: 1
+            },
+            {
+                question: "Who appoints the Chief Justice of India?",
+                options: ["Prime Minister", "President", "Parliament", "Supreme Court Collegium"],
+                correct: 1
+            },
+            {
+                question: "Which part of the Indian Constitution deals with Fundamental Rights?",
+                options: ["Part II", "Part III", "Part IV", "Part V"],
+                correct: 1
+            },
+            {
+                question: "What is the minimum age to become a member of the Lok Sabha?",
+                options: ["18 years", "21 years", "25 years", "30 years"],
+                correct: 2
+            },
+            {
+                question: "Who was the first woman Prime Minister of India?",
+                options: ["Sonia Gandhi", "Indira Gandhi", "Pratibha Patil", "Sarojini Naidu"],
+                correct: 1
+            },
+            {
+                question: "Which schedule of the Indian Constitution deals with official languages?",
+                options: ["Fifth Schedule", "Sixth Schedule", "Seventh Schedule", "Eighth Schedule"],
+                correct: 3
+            }
+        ];
+
+        function buildQuiz() {
+            const output = [];
+            quizData.forEach((questionData, index) => {
+                const answers = [];
+                questionData.options.forEach((option, optionIndex) => {
+                    answers.push(
+                        `<label>
+                            <input type="radio" name="question${index}" value="${optionIndex}">
+                            ${option}
+                        </label>`
+                    );
+                });
+                output.push(
+                    `<div class="question">
+                        <h3>Question ${index + 1}</h3>
+                        <p>${questionData.question}</p>
+                        <div class="answers">${answers.join('')}</div>
+                     </div>`
+                );
+            });
+            document.getElementById('quiz').innerHTML = output.join('');
+        }
+
+        function showResults() {
+            const answerContainers = document.querySelectorAll('.answers');
+            let score = 0;
+
+            quizData.forEach((questionData, index) => {
+                const answerContainer = answerContainers[index];
+                const selector = `input[name=question${index}]:checked`;
+                const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                if (userAnswer == questionData.correct) {
+                    score++;
+                    answerContainers[index].style.color = 'green';
+                } else {
+                    answerContainers[index].style.color = 'red';
+                }
+            });
+
+            document.getElementById('results').innerHTML = `You scored ${score} out of ${quizData.length}`;
+        }
+
+        buildQuiz();
+
+        document.getElementById('submit').addEventListener('click', showResults);
+    </script>
+</body>
+</html>
