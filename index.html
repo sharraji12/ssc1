@@ -6,7 +6,7 @@
     <title>Login Page</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        /* ... (previous styles) ... */
+        /* ... (keep your existing styles) ... */
     </style>
 </head>
 <body>
@@ -19,9 +19,18 @@
         </form>
         <div id="g_id_onload"
              data-client_id="186612590443-hb140gl691fhvguo2hhjh1i9cf0lgmql.apps.googleusercontent.com"
+             data-context="signin"
+             data-ux_mode="popup"
              data-callback="handleCredentialResponse">
         </div>
-        <div class="g_id_signin" data-type="standard"></div>
+        <div class="g_id_signin"
+             data-type="standard"
+             data-shape="rectangular"
+             data-theme="outline"
+             data-text="signin_with"
+             data-size="large"
+             data-logo_alignment="left">
+        </div>
     </div>
 
     <script>
@@ -29,13 +38,12 @@
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            // Here you would typically send these credentials to your server
             console.log('Login attempt:', username, password);
         });
 
         function handleCredentialResponse(response) {
-            // Here you would typically send the response.credential to your server
-            console.log('Google Sign-In response:', response.credential);
+            console.log('Google Sign-In response:', response);
+            // Here you would send the response.credential to your server
         }
     </script>
 </body>
